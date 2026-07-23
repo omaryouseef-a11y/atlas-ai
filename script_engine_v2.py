@@ -8,17 +8,15 @@ os.environ['GOOGLE_API_KEY'] = api_key
 
 gemini_llm = LLM(model='gemini/gemini-3.1-pro-preview', api_key=api_key)
 
-# 1. Define the Script Agent
 script_agent = Agent(
     role='Script Engine',
-    goal='Write a fast-paced, highly engaging children\'s script for Atlas Kids Media focused on counting from 1 to 10.',
+    goal='Write a fast-paced, highly engaging children\'s script focused on counting from 1 to 10.',
     backstory='You are an expert children\'s scriptwriter. The Founder requested a total rewrite of Episode 001. The new goal is to teach counting from 1 to 10 by having the 10 characters incrementally join the scene and interact. The pacing must be very fast (under 1 minute total dialogue).',
     verbose=True,
     allow_delegation=False,
     llm=gemini_llm
 )
 
-# 2. Define the Task
 script_task = Task(
     description='''Write a completely new script for Episode 001: 'The Great Forest Picnic Journey - V2'.
     
@@ -49,7 +47,6 @@ script_task = Task(
     agent=script_agent
 )
 
-# 3. Form the Crew
 script_crew = Crew(
     agents=[script_agent],
     tasks=[script_task],
