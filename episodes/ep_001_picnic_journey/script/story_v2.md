@@ -1,76 +1,98 @@
 # Episode 001: The Great Forest Picnic Journey - V2
 
-**Objective:** Teach counting from 1 to 10.
-**Pacing:** Extremely fast (Under 60 seconds total).
-**Language:** Simple Arabic (with English translations provided for production reference).
+**Target Audience:** Preschool / Toddlers
+**Educational Goal:** Counting from 1 to 10
+**Language:** Simple Arabic
+**Pacing:** Extremely fast (Under 60 seconds total)
 
 ---
 
-### Scene 1: The First Arrivals
+### **Scene 1: The Gathering Begins**
 **[Visual]** 
-A bright, vibrant forest clearing. A picnic blanket is laid out on the grass. The camera pans quickly. SOKKAR (Squirrel) drops down from a tree right into the center of the frame, holding an acorn. 
-FELIX (Fox) immediately slides into the frame from the left, kicking up a little playful dust.
-
+A bright, sunny forest clearing with a colorful picnic basket in the center. 
+Suddenly, **Sokkar** (Squirrel) jumps happily into the frame, holding a large acorn.
 **[Audio/Dialogue]**
-**Sokkar:** واحد! (Wahid! / One!) أنا هنا!
-**Felix:** اثنان! (Ithnan! / Two!) هيا نلعب!
+**Sokkar:** واحد! (One!) أنا سُكَّر! (I am Sokkar!)
+
+**[Visual]** 
+**Felix** (Fox) dashes in quickly from the right, standing proudly next to Sokkar.
+**[Audio/Dialogue]**
+**Felix:** اثنان! (Two!)
+
+**[Visual]** 
+**Bonnie** (Rabbit) hops high into the air and lands right between them, wiggling her nose.
+**[Audio/Dialogue]**
+**Bonnie:** ثلاثة! (Three!) هيا نلعب! (Let's play!)
 
 ---
 
-### Scene 2: The Berry Conflict
+### **Scene 2: A Tiny Conflict**
 **[Visual]** 
-BONNIE (Rabbit) hops high into the air and lands beside Felix. 
-BARNABY (Bear) lumbers in from the right, holding a single, giant, shiny red berry. 
-TWEETY (Bird) swoops down fast, cheekily snatching the berry right out of Barnaby’s paw. Barnaby crosses his arms, looking mildly grumpy. 
-BAMBI (Deer) leaps in gracefully, carrying a whole branch full of berries in her mouth. She drops it in front of Barnaby and Tweety, instantly making them both smile and high-five.
-
+The ground shakes slightly. **Barnaby** (Bear) stomps into the frame heavily, ready for the picnic.
 **[Audio/Dialogue]**
-**Bonnie:** ثلاثة! (Thalatha! / Three!) قفزة!
-**Barnaby:** أربعة! (Arba'a! / Four!) توت لذيذ!
-**Tweety:** خمسة! (Khamsa! / Five!) التوت لي!
-*(Barnaby gives a brief, playful grumpy growl)*
-**Bambi:** ستة! (Sitta! / Six!) لا تتشاجرا، لدي المزيد!
+**Barnaby:** أربعة! (Four!)
+
+**[Visual]** 
+**Tweety** (Bird) swoops in incredibly fast and lands directly on Barnaby’s nose! Barnaby crosses his eyes, waves his huge paws, and looks playfully annoyed.
+**[Audio/Dialogue]**
+**Tweety:** خمسة! (Five!) 
+**Barnaby:** (Playfully annoyed) مهلاً! أنفي! (Hey! My nose!)
+
+**[Visual]** 
+**Bambi** (Deer) leaps in gracefully. Bambi gently nudges Barnaby with a warm smile. Tweety hops happily over to Bambi’s antlers. Barnaby's frown turns into a big laugh.
+**[Audio/Dialogue]**
+**Bambi:** ستة! (Six!) لا تغضب يا صديقي! (Don't be mad, my friend!)
 
 ---
 
-### Scene 3: The Fast Friends Join
+### **Scene 3: The Rest of the Crew**
 **[Visual]** 
-The camera pulls back quickly to show the growing group. 
-TORTI (Turtle) slides into the frame on his shell like a skateboard, spinning once. 
-RICKY (Raccoon) pops his head out of a nearby picnic basket with a cheeky grin. 
-HENRY (Hedgehog) rolls into the scene as a tight little ball, knocking gently into Ricky's basket before unrolling with a big smile.
-
+**Torti** (Turtle) slides into the frame surprisingly fast, spinning on his shell like a toy top before stopping.
 **[Audio/Dialogue]**
-**Torti:** سبعة! (Sab'a! / Seven!) وصلت سريعاً!
-**Ricky:** ثمانية! (Thamaniya! / Eight!) مفاجأة!
-**Henry:** تسعة! (Tis'a! / Nine!) تدحرجت إليكم!
+**Torti:** سبعة! (Seven!)
+
+**[Visual]** 
+**Ricky** (Raccoon) swings in on a green vine, dropping down playfully next to Torti.
+**[Audio/Dialogue]**
+**Ricky:** ثمانية! (Eight!)
+
+**[Visual]** 
+**Henry** (Hedgehog) rolls in like a fast little ball, popping open into a cute stance with a big smile.
+**[Audio/Dialogue]**
+**Henry:** تسعة! (Nine!)
+
+**[Visual]** 
+**Freddy** (Frog) does a massive leap from off-screen, landing right in the front middle of the entire group. *Boing!*
+**[Audio/Dialogue]**
+**Freddy:** عشرة! (Ten!) ريبت! (Ribbit!)
 
 ---
 
-### Scene 4: The Climax and Rapid Count
+### **Scene 4: The Grand Finale (Rapid Count)**
 **[Visual]** 
-The camera snaps to a wide shot holding all 9 characters. Suddenly, FREDDY (Frog) leaps high into the air from the foreground and lands perfectly in the absolute center of the group. 
-All 10 characters are now on screen together. They gather close, looking directly at the camera with huge, excited expressions. Numbers (1-10) pop up brightly on screen in sync with their voices.
-
+Wide shot of the beautiful forest clearing. All 10 characters are grouped together, smiling at the camera. The picnic blanket magically unfolds beneath them. 
 **[Audio/Dialogue]**
-**Freddy:** عشرة! (Ashara! / Ten!) اكتمل الفريق!
-**Sokkar:** هيا نعد معاً بسرعة! (Let's count together quickly!)
-**All Characters (Rapid fire, energetic cheer):** 
-واحد! (1) 
-اثنان! (2) 
-ثلاثة! (3) 
-أربعة! (4) 
-خمسة! (5) 
-ستة! (6) 
-سبعة! (7) 
-ثمانية! (8) 
-تسعة! (9) 
-عشرة! (10)
+**All Characters (Chorus):** رحلة سعيدة! نعد معاً! (Happy picnic! Let's count together!)
 
 **[Visual]** 
-A burst of colorful confetti explodes over the picnic blanket. The 10 friends jump in the air, frozen in a joyful frame.
-
+Extremely fast-paced counting! Each character jumps up slightly as their number is called. Large, colorful Arabic numbers (١ to ١٠) pop up on the screen in sync with the audio.
 **[Audio/Dialogue]**
-**All Characters:** مرحى! (Hooray!) 
+**All:** 
+واحد! (One!)
+اثنان! (Two!)
+ثلاثة! (Three!)
+أربعة! (Four!)
+خمسة! (Five!)
+ستة! (Six!)
+سبعة! (Seven!)
+ثمانية! (Eight!)
+تسعة! (Nine!)
+عشرة! (Ten!)
 
-**[FADE OUT]**
+**[Visual]** 
+Confetti made of colorful autumn leaves and flowers falls over the group as they strike a fun pose.
+**[Audio/Dialogue]**
+**All:** مرحى! (Hooray!)
+
+**[Visual]**
+Quick fade out to Atlas Kids Media Logo.
