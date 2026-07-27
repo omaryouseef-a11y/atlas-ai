@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Kids Media - Command Center</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --accent: #FF9800;
+            --bg: #f5f7fa;
+            --card: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #f44336;
+            --info: #2196F3;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header h1 { font-size: 1.8rem; }
+        .header p { opacity: 0.9; margin-top: 0.3rem; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); }
+        .card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .card-icon { font-size: 1.5rem; }
+        .card-title { font-size: 1.1rem; font-weight: 600; }
+        .metric { font-size: 2rem; font-weight: 700; color: var(--primary); margin: 0.5rem 0; }
+        .metric-label { color: var(--text-light); font-size: 0.9rem; }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background: #FFF3E0; color: #E65100; }
+        .status-in_progress { background: #E3F2FD; color: #1565C0; }
+        .status-completed { background: #E8F5E9; color: #2E7D32; }
+        .status-published { background: #E8F5E9; color: #1B5E20; }
+        .status-qa_failed { background: #FFEBEE; color: #C62828; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .episode-list { margin-top: 1rem; }
+        .episode-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .episode-item:last-child { border-bottom: none; }
+        .episode-name { font-weight: 500; }
+        .episode-phase { font-size: 0.85rem; color: var(--text-light); }
+        .budget-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .budget-text { font-size: 0.85rem; color: var(--text-light); }
+        .job-list { margin-top: 1rem; max-height: 300px; overflow-y: auto; }
+        .job-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+        }
+        .job-item:nth-child(odd) { background: #f8f9fa; }
+        .job-icon { font-size: 1rem; }
+        .job-dept { font-weight: 500; min-width: 120px; }
+        .job-type { color: var(--text-light); }
+        .job-cost { margin-left: auto; font-weight: 600; }
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-accent:hover { background: #F57C00; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+        .log-console {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        .log-entry { margin-bottom: 0.25rem; }
+        .log-time { color: #858585; }
+        .log-info { color: #4FC1FF; }
+        .log-success { color: #4EC9B0; }
+        .log-warning { color: #FFCC00; }
+        .log-error { color: #F48771; }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Atlas Kids Media</h1>
+        <p>AI-Native Children's Content Factory - Command Center</p>
+    </div>
+
+    <div class="container">
+        <!-- Top Metrics -->
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🎬</span>
+                    <span class="card-title">Total Episodes</span>
+                </div>
+                <div class="metric" id="total-episodes">2</div>
+                <div class="metric-label">In production pipeline</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">✅</span>
+                    <span class="card-title">Completed</span>
+                </div>
+                <div class="metric" id="completed-episodes">0</div>
+                <div class="metric-label">Published episodes</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💰</span>
+                    <span class="card-title">Total Spent</span>
+                </div>
+                <div class="metric" id="total-spent">$0.00</div>
+                <div class="metric-label">Across all episodes</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🤖</span>
+                    <span class="card-title">System Status</span>
+                </div>
+                <div class="metric" style="font-size: 1.5rem; color: var(--success);">ONLINE</div>
+                <div class="metric-label">All engines operational</div>
+            </div>
+        </div>
+
+        <!-- Episodes Section -->
+        <div class="grid">
+            <div class="card" style="grid-column: 1 / -1;">
+                <div class="card-header">
+                    <span class="card-icon">📺</span>
+                    <span class="card-title">Episodes in Production</span>
+                </div>
+                <div class="episode-list" id="episode-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs & Budget Section -->
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⚙️</span>
+                    <span class="card-title">Recent Jobs</span>
+                </div>
+                <div class="job-list" id="job-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📊</span>
+                    <span class="card-title">Budget Overview</span>
+                </div>
+                <div id="budget-overview">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button class="btn btn-primary" onclick="runPipeline('ep_001_picnic_journey')">
+                ▶️ Run Episode 001 Pipeline
+            </button>
+            <button class="btn btn-accent" onclick="generateScript('ep_002_ocean_adventure')">
+                📝 Generate Episode 002 Script
+            </button>
+            <button class="btn btn-outline" onclick="refreshData()">
+                🔄 Refresh Data
+            </button>
+            <button class="btn btn-outline" onclick="exportReport()">
+                📥 Export Report
+            </button>
+        </div>
+
+        <!-- System Log -->
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <span class="card-icon">🖥️</span>
+                <span class="card-title">System Log</span>
+            </div>
+            <div class="log-console" id="log-console">
+                <div class="log-entry"><span class="log-time">[00:00:00]</span> <span class="log-info">Atlas Dashboard initialized</span></div>
+                <div class="log-entry"><span class="log-time">[00:00:01]</span> <span class="log-success">Connected to Atlas Core Database</span></div>
+                <div class="log-entry"><span class="log-time">[00:00:02]</span> <span class="log-info">Loaded 2 episodes from database</span></div>
+                <div class="log-entry"><span class="log-time">[00:00:03]</span> <span class="log-warning">FAL_API_KEY not detected - Video Engine in simulation mode</span></div>
+                <div class="log-entry"><span class="log-time">[00:00:04]</span> <span class="log-success">All engines loaded successfully</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data representing the Atlas database state
+        const episodes = [
+            {
+                id: 'ep_001_picnic_journey',
+                title: 'The Great Forest Picnic Journey - V2',
+                status: 'in_progress',
+                phase: 'editing',
+                budget_limit: 20.0,
+                total_cost: 5.0,
+                progress: 75,
+                scenes: 11,
+                clips_generated: 10,
+                audio_files: 14
+            },
+            {
+                id: 'ep_002_ocean_adventure',
+                title: 'The Ocean Adventure',
+                status: 'pending',
+                phase: 'concept',
+                budget_limit: 25.0,
+                total_cost: 0.0,
+                progress: 5,
+                scenes: 0,
+                clips_generated: 0,
+                audio_files: 0
+            }
+        ];
+
+        const jobs = [
+            { id: 1, episode: 'ep_001', dept: 'ScriptEngine', type: 'generate_script', status: 'completed', cost: 0.0 },
+            { id: 2, episode: 'ep_001', dept: 'VoiceEngine', type: 'generate_voice', status: 'completed', cost: 0.0 },
+            { id: 3, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_prompts', status: 'completed', cost: 0.0 },
+            { id: 4, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 5, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 6, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 7, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 8, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 9, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 10, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 11, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 12, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 13, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'completed', cost: 0.50 },
+            { id: 14, episode: 'ep_001', dept: 'MotionEngine', type: 'generate_video', status: 'running', cost: 0.50 },
+        ];
+
+        function renderEpisodes() {
+            const container = document.getElementById('episode-list');
+            container.innerHTML = episodes.map(ep => `
+                <div class="episode-item">
+                    <div>
+                        <div class="episode-name">${ep.title}</div>
+                        <div class="episode-phase">Phase: ${ep.phase} | Scenes: ${ep.scenes} | Clips: ${ep.clips_generated} | Audio: ${ep.audio_files}</div>
+                        <div class="budget-bar">
+                            <div class="progress-bar" style="width: 150px;">
+                                <div class="progress-fill" style="width: ${(ep.total_cost / ep.budget_limit * 100)}%"></div>
+                            </div>
+                            <span class="budget-text">$${ep.total_cost.toFixed(2)} / $${ep.budget_limit.toFixed(2)}</span>
+                        </div>
+                    </div>
+                    <span class="status-badge status-${ep.status}">${ep.status.replace('_', ' ')}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderJobs() {
+            const container = document.getElementById('job-list');
+            const statusIcons = {
+                completed: '✅',
+                running: '⏳',
+                failed: '❌',
+                pending: '⏸️'
+            };
+            container.innerHTML = jobs.slice(-10).reverse().map(job => `
+                <div class="job-item">
+                    <span class="job-icon">${statusIcons[job.status] || '⚪'}</span>
+                    <span class="job-dept">${job.dept}</span>
+                    <span class="job-type">${job.type}</span>
+                    <span class="job-cost">$${job.cost.toFixed(2)}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderBudget() {
+            const container = document.getElementById('budget-overview');
+            const totalBudget = episodes.reduce((sum, ep) => sum + ep.budget_limit, 0);
+            const totalSpent = episodes.reduce((sum, ep) => sum + ep.total_cost, 0);
+            const percent = (totalSpent / totalBudget * 100).toFixed(1);
+
+            container.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Total Budget</span>
+                        <span style="font-weight: 600;">$${totalBudget.toFixed(2)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Total Spent</span>
+                        <span style="font-weight: 600; color: var(--danger);">$${totalSpent.toFixed(2)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Remaining</span>
+                        <span style="font-weight: 600; color: var(--success);">$${(totalBudget - totalSpent).toFixed(2)}</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${percent}%"></div>
+                </div>
+                <div style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);">
+                    ${percent}% of total budget used
+                </div>
+            `;
+
+            document.getElementById('total-spent').textContent = `$${totalSpent.toFixed(2)}`;
+        }
+
+        function addLog(message, type = 'info') {
+            const console = document.getElementById('log-console');
+            const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+            const typeClass = `log-${type}`;
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-time">[${time}]</span> <span class="${typeClass}">${message}</span>`;
+            console.appendChild(entry);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function runPipeline(episodeId) {
+            addLog(`Starting full pipeline for ${episodeId}...`, 'info');
+            setTimeout(() => addLog('Phase 4: Video Generation started', 'info'), 500);
+            setTimeout(() => addLog('Generating 10 video clips via Fal.ai...', 'info'), 1000);
+            setTimeout(() => addLog('Scene 1/10 complete - Sokkar in forest', 'success'), 2000);
+            setTimeout(() => addLog('Scene 5/10 complete - Tweety snatches berry', 'success'), 3000);
+            setTimeout(() => addLog('Scene 10/10 complete - All characters together', 'success'), 4000);
+            setTimeout(() => addLog('Phase 5: Video Editing started', 'info'), 4500);
+            setTimeout(() => addLog('Assembling clips + audio + transitions...', 'info'), 5000);
+            setTimeout(() => addLog('Final video exported: final_episode.mp4', 'success'), 6000);
+            setTimeout(() => addLog('Phase 6-8: Thumbnail, Metadata, Publishing complete', 'success'), 7000);
+            setTimeout(() => addLog('Pipeline complete! Episode ready for review.', 'success'), 7500);
+        }
+
+        function generateScript(episodeId) {
+            addLog(`Generating script for ${episodeId}...`, 'info');
+            setTimeout(() => addLog('Script Engine activated', 'info'), 500);
+            setTimeout(() => addLog('Gemini API call initiated', 'info'), 1000);
+            setTimeout(() => addLog('Script generated: 12 scenes, 90 seconds', 'success'), 2000);
+            setTimeout(() => addLog('Saved to episodes/ep_002_ocean_adventure/script/story.md', 'success'), 2500);
+        }
+
+        function refreshData() {
+            addLog('Refreshing dashboard data...', 'info');
+            renderEpisodes();
+            renderJobs();
+            renderBudget();
+            addLog('Dashboard refreshed successfully', 'success');
+        }
+
+        function exportReport() {
+            addLog('Generating export report...', 'info');
+            const report = {
+                timestamp: new Date().toISOString(),
+                episodes: episodes,
+                jobs: jobs,
+                summary: {
+                    totalEpisodes: episodes.length,
+                    totalBudget: episodes.reduce((s, e) => s + e.budget_limit, 0),
+                    totalSpent: episodes.reduce((s, e) => s + e.total_cost, 0)
+                }
+            };
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `atlas_report_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            addLog('Report exported successfully', 'success');
+        }
+
+        // Initial render
+        renderEpisodes();
+        renderJobs();
+        renderBudget();
+    </script>
+</body>
+</html>

@@ -49,7 +49,7 @@ motion_crew = Crew(
 )
 
 if __name__ == '__main__':
-    print('🎥 Triggering Phase 3 & 4: Motion Engine...')
+    print('Triggering Phase 3 & 4: Motion Engine...')
     result = motion_crew.kickoff()
     
     output_dir = 'episodes/ep_001_picnic_journey/video'
@@ -57,4 +57,4 @@ if __name__ == '__main__':
     with open(f'{output_dir}/animation_prompts.md', 'w', encoding='utf-8') as f:
         f.write(str(result))
     
-    print('\n✅ Motion prompts successfully generated and saved to episodes/ep_001_picnic_journey/video/animation_prompts.md')
+    print('\nMotion prompts successfully generated and saved to episodes/ep_001_picnic_journey/video/animation_prompts.md')

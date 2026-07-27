@@ -54,7 +54,7 @@ script_crew = Crew(
 )
 
 if __name__ == '__main__':
-    print('🎬 Triggering Phase 1 (V2): Script Engine with new Counting Directive...')
+    print('Triggering Phase 1 (V2): Script Engine with new Counting Directive...')
     result = script_crew.kickoff()
     
     output_dir = 'episodes/ep_001_picnic_journey/script'
@@ -62,4 +62,4 @@ if __name__ == '__main__':
     with open(f'{output_dir}/story_v2.md', 'w', encoding='utf-8') as f:
         f.write(str(result))
     
-    print('\n✅ V2 Script successfully written and saved to episodes/ep_001_picnic_journey/script/story_v2.md')
+    print('\nV2 Script successfully written and saved to episodes/ep_001_picnic_journey/script/story_v2.md')

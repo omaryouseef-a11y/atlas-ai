@@ -34,7 +34,7 @@ script_task = Task(
     10. Frog: Freddy (Welcoming and friendly)
     
     Requirements:
-    - Language: Simple, clear English (for global pilot) or Arabic (based on OS). Let's use simple Arabic since the target audience is Arab children.
+    - Language: Simple, clear English (for global pilot) or Arabic (based on OS). Let\'s use simple Arabic since the target audience is Arab children.
     - Format: Scene by scene. For each scene, include [Visual] (for the Vision Engine) and [Audio/Dialogue] (for the Voice Engine).
     - Length: About 2-3 minutes of screen time.
     - Educational Goal: Teamwork and sharing.
@@ -51,7 +51,7 @@ script_crew = Crew(
 )
 
 if __name__ == '__main__':
-    print('🎬 Triggering Phase 1: Script Engine...')
+    print('Triggering Phase 1: Script Engine...')
     result = script_crew.kickoff()
     
     # Save the output to the episode folder
@@ -60,4 +60,4 @@ if __name__ == '__main__':
     with open(f'{output_dir}/story.md', 'w', encoding='utf-8') as f:
         f.write(str(result))
     
-    print('\n✅ Script successfully written and saved to episodes/ep_001_picnic_journey/script/story.md')
+    print('\nScript successfully written and saved to episodes/ep_001_picnic_journey/script/story.md')

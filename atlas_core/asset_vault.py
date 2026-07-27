@@ -29,8 +29,19 @@ class AssetVault:
         conn.close()
         return result
 
+    def list_assets(self, asset_type=None):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        if asset_type:
+            cursor.execute('SELECT * FROM assets WHERE asset_type=?', (asset_type,))
+        else:
+            cursor.execute('SELECT * FROM assets')
+        results = cursor.fetchall()
+        conn.close()
+        return results
+
 if __name__ == '__main__':
     vault = AssetVault()
     # Registering the character bible as our first foundational asset
     vault.register_asset('bible_v1', 'character_bible', 'Atlas Character Bible', 'media_library/characters/atlas_character_bible.md')
-    print('🗄️ Asset Vault Initialized and Character Bible registered.')
+    print('Asset Vault Initialized and Character Bible registered.')

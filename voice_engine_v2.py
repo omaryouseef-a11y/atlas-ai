@@ -27,7 +27,7 @@ def generate_voices():
             dialogue_clean = re.sub(r'\(.*?\)', '', dialogue_part).strip()
             
             if dialogue_clean:
-                print(f'🎙️ Recording {character_part} (Line {audio_count}): {dialogue_clean}')
+                print(f'Recording {character_part} (Line {audio_count}): {dialogue_clean}')
                 try:
                     tts = gTTS(text=dialogue_clean, lang='ar', slow=False)
                     filename = f'{output_dir}/line_{audio_count:03d}_{character_part.split()[0]}.mp3'
@@ -37,6 +37,6 @@ def generate_voices():
                     print(f'Error generating audio: {e}')
 
 if __name__ == '__main__':
-    print('🔊 Triggering Phase 2 (V2): Voice Engine...')
+    print('Triggering Phase 2 (V2): Voice Engine...')
     generate_voices()
-    print('\n✅ V2 Voice generation complete! Audio files saved to episodes/ep_001_picnic_journey/voice_v2/')
+    print('\nV2 Voice generation complete! Audio files saved to episodes/ep_001_picnic_journey/voice_v2/')

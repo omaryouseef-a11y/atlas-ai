@@ -12,8 +12,8 @@ def setup_database():
     CREATE TABLE IF NOT EXISTS episodes (
         id TEXT PRIMARY KEY,
         title TEXT,
-        status TEXT, -- pending, in_progress, QA_failed, ready_for_approval, published
-        current_phase TEXT, -- script, voice, video, editing
+        status TEXT,
+        current_phase TEXT,
         budget_limit REAL,
         total_cost REAL DEFAULT 0.0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -26,11 +26,11 @@ def setup_database():
     CREATE TABLE IF NOT EXISTS jobs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         episode_id TEXT,
-        department TEXT, -- e.g., ScriptEngine, MotionEngine
-        task_type TEXT, -- e.g., generate_prompt, generate_video, generate_voice
+        department TEXT,
+        task_type TEXT,
         input_data TEXT,
         output_data TEXT,
-        status TEXT, -- pending, running, completed, failed
+        status TEXT,
         cost REAL DEFAULT 0.0,
         error_log TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -42,7 +42,7 @@ def setup_database():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS assets (
         id TEXT PRIMARY KEY,
-        asset_type TEXT, -- character_image, voice_model, background, music
+        asset_type TEXT,
         name TEXT,
         file_path TEXT,
         metadata TEXT,
@@ -50,9 +50,24 @@ def setup_database():
     )
     ''')
 
+    # 4. Analytics Table (For tracking performance)
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS analytics (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        episode_id TEXT,
+        platform TEXT,
+        views INTEGER DEFAULT 0,
+        likes INTEGER DEFAULT 0,
+        comments INTEGER DEFAULT 0,
+        watch_time REAL DEFAULT 0.0,
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (episode_id) REFERENCES episodes (id)
+    )
+    ''')
+
     conn.commit()
     conn.close()
-    print('🏗️ Atlas Core Database initialized successfully.')
+    print('Atlas Core Database initialized successfully.')
 
 if __name__ == '__main__':
     setup_database()

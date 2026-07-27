@@ -5,14 +5,14 @@ DB_PATH = 'atlas.db'
 
 def print_dashboard():
     if not os.path.exists(DB_PATH):
-        print('❌ Database not found. The factory has not been initialized.')
+        print('Database not found. The factory has not been initialized.')
         return
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     print('='*60)
-    print('📊 ATLAS KIDS MEDIA - COMPANY DASHBOARD')
+    print('ATLAS KIDS MEDIA - COMPANY DASHBOARD')
     print('='*60)
 
     cursor.execute('SELECT id, title, status, current_phase, budget_limit, total_cost FROM episodes')
@@ -23,7 +23,7 @@ def print_dashboard():
     else:
         for ep in episodes:
             ep_id, title, status, phase, budget, cost = ep
-            print(f'\n🎬 EPISODE: {title} ({ep_id})')
+            print(f'\nEPISODE: {title} ({ep_id})')
             print(f'   ├─ Status: {status.upper()}')
             print(f'   ├─ Phase:  {phase.upper()}')
             
@@ -34,7 +34,7 @@ def print_dashboard():
             bar = '█' * bar_filled + '░' * bar_empty
             print(f'   └─ Budget: [{bar}] ${cost:.2f} / ${budget:.2f} ({percent:.1f}%)')
             
-            print('\n   📋 RECENT JOBS (Last 5):')
+            print('\n   RECENT JOBS (Last 5):')
             cursor.execute('SELECT id, department, task_type, status, cost FROM jobs WHERE episode_id=? ORDER BY id DESC LIMIT 5', (ep_id,))
             jobs = cursor.fetchall()
             if jobs:

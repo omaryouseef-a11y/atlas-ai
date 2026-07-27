@@ -34,4 +34,4 @@ class QualityGate:
 
 if __name__ == '__main__':
     qa = QualityGate()
-    print('🛡️ QA Gate Initialized successfully.')
+    print('QA Gate Initialized successfully.')

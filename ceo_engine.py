@@ -40,6 +40,6 @@ atlas_crew = Crew(
 )
 
 if __name__ == '__main__':
-    print('🚀 Atlas Kids Media - CEO Engine Initialized.')
+    print('Atlas Kids Media - CEO Engine Initialized.')
     # result = atlas_crew.kickoff()
     # print(result)

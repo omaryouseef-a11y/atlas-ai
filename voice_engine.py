@@ -29,7 +29,7 @@ def generate_voices():
             dialogue_clean = re.sub(r'\(.*?\)', '', dialogue_part).strip()
             
             if dialogue_clean:
-                print(f'🎙️ Recording {character_part} (Line {audio_count})...')
+                print(f'Recording {character_part} (Line {audio_count})...')
                 try:
                     # Using Google TTS (Arabic)
                     tts = gTTS(text=dialogue_clean, lang='ar', slow=False)
@@ -40,6 +40,6 @@ def generate_voices():
                     print(f'Error generating audio: {e}')
 
 if __name__ == '__main__':
-    print('🔊 Triggering Phase 2: Voice Engine (Google TTS)...')
+    print('Triggering Phase 2: Voice Engine (Google TTS)...')
     generate_voices()
-    print('\n✅ Voice generation complete! Audio files saved to episodes/ep_001_picnic_journey/voice/')
+    print('\nVoice generation complete! Audio files saved to episodes/ep_001_picnic_journey/voice/')

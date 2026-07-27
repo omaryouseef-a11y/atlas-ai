@@ -1,0 +1,72 @@
+episode:
+  id: ep_003_space_journey
+  title: The Space Journey
+  title_arabic: رحلة الفضاء
+  version: '1.0'
+  status: concept
+  created_at: '2026-07-27T02:15:00'
+target_audience:
+  age_range: 3-7
+  language: arabic
+  region: MENA
+  platforms:
+  - youtube
+  - facebook
+  - instagram
+educational:
+  primary_goal: Learning shapes in Arabic
+  secondary_goals:
+  - Space exploration curiosity
+  - Teamwork
+  learning_objectives:
+  - Identify circle, square, triangle, star in Arabic
+production:
+  budget_limit: 25.0
+  duration_seconds: 90
+  num_scenes: 12
+  setting: colorful space station with planets and stars
+  style: 3D animated, Pixar style, vibrant colors, highly detailed, 4k resolution,
+    cinematic lighting, calm and child-safe movement
+  aspect_ratio: '16:9'
+  resolution: 1080p
+  frame_rate: 24
+characters:
+  cast:
+  - Sokkar
+  - Felix
+  - Bonnie
+  - Barnaby
+  - Tweety
+  - Bambi
+  - Torti
+  - Ricky
+  - Henry
+  - Freddy
+  new_characters: []
+  guest_characters:
+  - Alien Zippy
+content_safety:
+  coppa_compliant: true
+  age_appropriate: true
+  no_violence: true
+  no_scary_content: true
+  positive_message: true
+publishing:
+  youtube:
+    category: Education
+    privacy: public
+    made_for_kids: true
+    schedule: null
+    playlists:
+    - Atlas Kids Media - Season 1
+  facebook:
+    enabled: false
+  instagram:
+    enabled: false
+    reels: false
+analytics:
+  track_views: true
+  track_likes: true
+  track_comments: true
+  track_watch_time: true
+  improvement_loop: true
