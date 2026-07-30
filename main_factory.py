@@ -8,6 +8,7 @@ from editor_engine import EditorEngine
 from thumbnail_engine import ThumbnailEngine
 from metadata_engine import MetadataEngine
 from publisher.youtube_publisher import YouTubePublisher
+from monetization.store import DigitalStore
 
 def run_full_pipeline(episode_id):
     """
@@ -104,6 +105,16 @@ def run_full_pipeline(episode_id):
     else:
         jm.update_status(episode_id, 'ready_for_approval')
         print(f'\n Episode {episode_id} is ready for manual review and publishing.')
+
+    # Phase 9: Digital Store Generation (Monetization)
+    print('\n--- PHASE 9: DIGITAL STORE GENERATION ---')
+    jm.update_phase(episode_id, 'digital_store')
+    store = DigitalStore()
+    product_url = store.process_new_video(
+        character_prompts=meta_data.get('characters', ['Sokkar', 'Felix', 'Bonnie', 'Barnaby', 'Tweety', 'Bambi', 'Torti', 'Ricky', 'Henry', 'Freddy']),
+        video_id=episode_id,
+        title=meta_data.get('title', f'Atlas Kids Media - {episode_id}')
+    )
 
     # Final Report
     print(f'\n{"="*60}')
