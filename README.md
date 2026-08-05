@@ -6,7 +6,7 @@
 
 Atlas Kids Media is an AI-native company built to create high-quality children's educational videos with minimal human intervention. From scriptwriting to YouTube publishing, every step is orchestrated by AI agents.
 
-**Founder:** Omar  
+**Founder:** Omar
 **CEO Engine:** Ramo (رامو) — AI orchestrator built on CrewAI + Gemini
 
 ## The 10 Atlas Characters
@@ -132,6 +132,9 @@ Translation → Safety Review → Publish → Analytics → Improvement Loop
 
 ### API Server (`api_server.py`)
 - FastAPI REST API for remote pipeline control
+- **API Key Authentication** (`auth.py`) — see Authentication section below
+- Role-based access control: Admin vs Read-Only
+- Rate limiting: 60 requests/minute per IP
 - Endpoints: create episode, trigger pipeline, check status, publish, analytics
 - Background task processing
 - Auto-generated docs at `/docs`
@@ -174,53 +177,131 @@ pip install -r requirements.txt
 cp .env.example .env
 # Edit .env with your API keys
 
-# 3. Initialize database
+# 3. Generate API authentication keys (run once)
+python auth.py
+# This creates ATLAS_API_KEY and ATLAS_READ_ONLY_KEY in your .env
+
+# 4. Initialize database
 python atlas_core/db_setup.py
 
-# 4. Run full pipeline for Episode 001
+# 5. Run full pipeline for Episode 001
 python main_factory.py
 
-# 5. Start API server
+# 6. Start API server
 python api_server.py
 # Visit http://localhost:8000/docs for interactive API docs
 
-# 6. View dashboard
+# 7. View dashboard
 open dashboard/index.html
 ```
 
-## API Server Usage
+## 🔐 API Authentication
+
+All API endpoints (except `/`) now require authentication via API keys.
+
+### Generating Keys
 
 ```bash
-# Start the server
-python api_server.py
+# Generate new admin and read-only keys
+python auth.py
+```
 
-# Create a new episode via API
+This updates your `.env` file with:
+```bash
+ATLAS_API_KEY=atlas_admin_xxxxxxxxxxxxxxxx
+ATLAS_READ_ONLY_KEY=atlas_read_xxxxxxxxxxxxxxxx
+```
+
+### Authentication Headers
+
+Pass your key in **either** of these headers:
+
+```bash
+# Option 1: Bearer token (recommended)
+Authorization: Bearer your-api-key
+
+# Option 2: Direct header
+X-API-Key: your-api-key
+```
+
+### Access Levels
+
+| Role | Key Variable | Permissions |
+|------|-------------|-------------|
+| **Admin** | `ATLAS_API_KEY` | Create, trigger, publish, safety check |
+| **Read-Only** | `ATLAS_READ_ONLY_KEY` | View status, episodes, analytics only |
+
+### Protected Endpoints
+
+| Endpoint | Required Role |
+|----------|--------------|
+| `GET /` | Public (no auth) |
+| `GET /status` | Read or Admin |
+| `GET /episodes` | Read or Admin |
+| `GET /episodes/{id}` | Read or Admin |
+| `GET /pipeline/status/{id}` | Read or Admin |
+| `GET /analytics/{id}` | Read or Admin |
+| `POST /episodes/create` | **Admin only** |
+| `POST /pipeline/trigger` | **Admin only** |
+| `POST /publish` | **Admin only** |
+| `POST /safety/check/{id}` | **Admin only** |
+
+### Example API Calls
+
+```bash
+# Set your key
+export ATLAS_KEY="your-admin-api-key"
+
+# Health check (no auth)
+curl http://localhost:8000/
+
+# Get status (read access)
+curl -H "Authorization: Bearer $ATLAS_KEY" \
+  http://localhost:8000/status
+
+# Create episode (admin only)
 curl -X POST http://localhost:8000/episodes/create \
+  -H "Authorization: Bearer $ATLAS_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "episode_id": "ep_003_space_journey",
     "title": "The Space Journey",
     "educational_goal": "Learning shapes in Arabic",
-    "characters": ["Sokkar", "Felix", "Bonnie", "Barnaby", "Tweety", "Bambi", "Torti", "Ricky", "Henry", "Freddy"],
+    "characters": ["Sokkar", "Felix", "Bonnie", "Barnaby", "Tweety"],
     "budget_limit": 25.0
   }'
 
-# Trigger pipeline
+# Trigger pipeline (admin only)
 curl -X POST http://localhost:8000/pipeline/trigger \
+  -H "Authorization: Bearer $ATLAS_KEY" \
   -H "Content-Type: application/json" \
   -d '{"episode_id": "ep_003_space_journey"}'
 
-# Check status
-curl http://localhost:8000/pipeline/status/ep_003_space_journey
-
-# Run safety check
-curl -X POST http://localhost:8000/safety/check/ep_003_space_journey
+# Check status (read access)
+curl -H "Authorization: Bearer $ATLAS_KEY" \
+  http://localhost:8000/pipeline/status/ep_003_space_journey
 ```
+
+### Rate Limiting
+
+- **Limit**: 60 requests per minute per IP address
+- **Exceeded**: Returns `429 Too Many Requests` with retry-after info
+
+### Security Features
+
+- ✅ Constant-time key comparison (timing-attack resistant)
+- ✅ SHA-256 key hashing
+- ✅ Per-IP rate limiting
+- ✅ Role-based access control
+- ✅ Request logging with IP + role
+- ✅ Auto-generated secure random keys
 
 ## API Keys Required
 
 | Service | Key | Purpose |
 |---------|-----|---------|
+| Atlas API | `ATLAS_API_KEY` | API server authentication (admin) |
+| Atlas API | `ATLAS_READ_ONLY_KEY` | API server authentication (read-only) |
 | Google Gemini | `GEMINI_API_KEY` | All AI agents (Script, Motion, Thumbnail, Metadata, Safety, Translation, Storyboard) |
 | Fal.ai | `FAL_API_KEY` | Video generation (Veo 3) |
 | YouTube | `client_secrets.json` | Publishing + Analytics (OAuth2) |
@@ -259,6 +340,7 @@ curl -X POST http://localhost:8000/safety/check/ep_003_space_journey
 - [x] Phase 10: Config Manager (YAML-based episodes)
 - [x] Phase 11: Retry System + Notifications (Slack/Email)
 - [x] Phase 12: REST API Server (FastAPI)
+- [x] Phase 12b: API Authentication + Rate Limiting
 - [ ] Phase 13: Episode 002 production
 - [ ] Phase 14: Batch production (multiple episodes in parallel)
 - [ ] Phase 15: Automated A/B thumbnail testing
