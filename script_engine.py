@@ -1,12 +1,8 @@
 import os
-from dotenv import load_dotenv
-from crewai import Agent, Task, Crew, Process, LLM
+from crewai import Agent, Task, Crew, Process
+from providers.gemini import create_crewai_llm
 
-load_dotenv()
-api_key = os.getenv('GEMINI_API_KEY')
-os.environ['GOOGLE_API_KEY'] = api_key
-
-gemini_llm = LLM(model='gemini/gemini-3.1-pro-preview', api_key=api_key)
+gemini_llm = create_crewai_llm()
 
 script_agent = Agent(
     role='Script Engine',
@@ -19,14 +15,14 @@ script_agent = Agent(
 
 script_task = Task(
     description='''Write a completely new script for Episode 001: 'The Great Forest Picnic Journey - V2'.
-    
+
     CRITICAL FOUNDER DIRECTIVES:
     - The core educational goal is COUNTING from 1 to 10.
     - The script must be extremely fast-paced (the whole dialogue should be under 1 minute).
     - It is cumulative: 1 character appears, says 'One', then the 2nd joins, they say 'Two', then the 3rd, etc.
     - Add dynamic interactions: e.g., when the 4th joins the 5th, maybe a tiny playful conflict happens, the 6th resolves it, and they continue counting.
     - At the very end, all 10 are together on screen, and they all count rapidly '1, 2, 3, 4, 5, 6, 7, 8, 9, 10!' together.
-    
+
     The 10 Characters (must appear in order):
     1. Sokkar (Squirrel)
     2. Felix (Fox)
@@ -38,7 +34,7 @@ script_task = Task(
     8. Ricky (Raccoon)
     9. Henry (Hedgehog)
     10. Freddy (Frog)
-    
+
     Requirements:
     - Language: Simple Arabic.
     - Format: Scene by scene. Include [Visual] showing how the characters group up in the frame, and [Audio/Dialogue].
@@ -56,10 +52,10 @@ script_crew = Crew(
 if __name__ == '__main__':
     print('Triggering Phase 1 (V2): Script Engine with new Counting Directive...')
     result = script_crew.kickoff()
-    
+
     output_dir = 'episodes/ep_001_picnic_journey/script'
     os.makedirs(output_dir, exist_ok=True)
-    with open(f'{output_dir}/story_v2.md', 'w', encoding='utf-8') as f:
+    with open(f'{output_dir}/story.md', 'w', encoding='utf-8') as f:
         f.write(str(result))
-    
-    print('\nV2 Script successfully written and saved to episodes/ep_001_picnic_journey/script/story_v2.md')
+
+    print('\nV2 Script successfully written and saved to episodes/ep_001_picnic_journey/script/story.md')

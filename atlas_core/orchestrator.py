@@ -34,7 +34,7 @@ class AtlasOrchestrator:
         print(f'⏳ Started Job #{job_id}')
 
         # 3. Generate Video via Video Engine
-        output_dir = f'episodes/{episode_id}/video_v2'
+        output_dir = f'episodes/{episode_id}/video'
         os.makedirs(output_dir, exist_ok=True)
         scene_str = f'scene_{scene_num:03d}' if scene_num else f'clip_{job_id}'
         output_path = f'{output_dir}/{scene_str}.mp4'

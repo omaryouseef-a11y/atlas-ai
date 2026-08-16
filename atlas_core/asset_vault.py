@@ -1,14 +1,10 @@
 import sqlite3
-import os
-import sys
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from atlas_core.job_manager import AtlasJobManager
 
 class AssetVault:
-    def __init__(self):
-        self.jm = AtlasJobManager()
-        self.db_path = 'atlas.db'
+    def __init__(self, db_path="atlas.db"):
+        self.jm = AtlasJobManager(db_path)
+        self.db_path = self.jm.db_path
 
     def register_asset(self, asset_id, asset_type, name, file_path, metadata=''):
         conn = sqlite3.connect(self.db_path)

@@ -1,66 +1,43 @@
-# === Python ===
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
-*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
 
-# === Virtual Environments ===
-.env
-.venv
-env/
+# Virtual environments and secrets
+.venv/
 venv/
-ENV/
-env.bak/
-venv.bak/
+env/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+client_secrets.json
+token.json
+token.pickle
 
-# === IDEs ===
-.vscode/
+# Generated Atlas data and media
+*.db
+*.db-journal
+*.log
+*.mp3
+*.wav
+*.mp4
+*.mov
+reports/
+outputs/
+cache/
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
 .idea/
+.vscode/
 *.swp
 *.swo
 *~
-
-# === OS ===
-.DS_Store
-Thumbs.db
-
-# === Atlas Kids Media Specific ===
-atlas.db
-*.db-journal
-episodes/
-media_library/
-reports/
-test_output.mp4
-client_secrets.json
-token.pickle
-*.mp4
-*.wav
-*.mp3
-*.srt
-*.png
-*.jpg
-*.pdf
-
-# === Secrets (NEVER commit these) ===
-.env
-.env.local
-.env.production
-*.pem
-*.key
-secrets.json

@@ -222,11 +222,10 @@ def setup_env_file(env_path: str = ".env") -> None:
 
         with open(env_path, "w", encoding="utf-8") as f:
             f.write("\n".join(new_lines) + "\n")
+        os.chmod(env_path, 0o600)
 
         print(f"[Auth] Generated new API keys in {env_path}")
-        print(f"  Admin Key:    {admin_key or '(existing)'}")
-        print(f"  Read-Only Key: {readonly_key or '(existing)'}")
-        print("[Auth] KEEP THESE SECRET — never commit this file!")
+        print("[Auth] Values were not printed. Keep this file private.")
     else:
         # Create new .env file
         admin_key = generate_api_key("atlas_admin")
@@ -234,10 +233,9 @@ def setup_env_file(env_path: str = ".env") -> None:
         with open(env_path, "w", encoding="utf-8") as f:
             f.write(f"ATLAS_API_KEY={admin_key}\n")
             f.write(f"ATLAS_READ_ONLY_KEY={readonly_key}\n")
+        os.chmod(env_path, 0o600)
         print(f"[Auth] Created new {env_path} with generated API keys")
-        print(f"  Admin Key:    {admin_key}")
-        print(f"  Read-Only Key: {readonly_key}")
-        print("[Auth] KEEP THESE SECRET — never commit this file!")
+        print("[Auth] Values were not printed. Keep this file private.")
 
 
 # --- Middleware for Request Logging ---

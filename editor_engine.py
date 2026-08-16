@@ -207,8 +207,8 @@ class EditorEngine:
 if __name__ == '__main__':
     editor = EditorEngine('ep_001_picnic_journey')
     result = editor.assemble_episode(
-        video_clips_dir='episodes/ep_001_picnic_journey/video_v2',
-        audio_dir='episodes/ep_001_picnic_journey/voice_v2'
+        video_clips_dir='episodes/ep_001_picnic_journey/video',
+        audio_dir='episodes/ep_001_picnic_journey/voice'
     )
     if result:
         print(f'Final video: {result}')

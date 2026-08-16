@@ -1,12 +1,8 @@
 import os
-from dotenv import load_dotenv
-from crewai import Agent, Task, Crew, Process, LLM
+from crewai import Agent, Task, Crew, Process
+from providers.gemini import create_crewai_llm
 
-load_dotenv()
-api_key = os.getenv('GEMINI_API_KEY')
-os.environ['GOOGLE_API_KEY'] = api_key
-
-gemini_llm = LLM(model='gemini/gemini-3.1-pro-preview', api_key=api_key)
+gemini_llm = create_crewai_llm()
 
 class MetadataEngine:
     """
@@ -35,14 +31,14 @@ class MetadataEngine:
         task = Task(
             description=f'''
             Generate complete YouTube metadata for this episode:
-            
+
             Episode Title: {episode_title}
             Description: {episode_description}
             Characters: {', '.join(characters)}
             Educational Goal: {educational_goal}
             Target Age: {target_age}
             Channel: Atlas Kids Media (قناة أطلس للأطفال)
-            
+
             Output must include:
             1. TITLE: Max 100 chars. Mix Arabic + English. Include numbers/emojis. Make it irresistible to parents.
             2. DESCRIPTION: 500+ words. Include:
@@ -56,7 +52,7 @@ class MetadataEngine:
                - Hashtags
             3. TAGS: 15 high-volume search keywords in Arabic and English
             4. CATEGORY: YouTube category ID
-            
+
             Format as structured markdown.
             ''',
             expected_output='A complete metadata package with Title, Description, Tags, and Category.',

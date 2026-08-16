@@ -17,7 +17,7 @@ def print_dashboard():
 
     cursor.execute('SELECT id, title, status, current_phase, budget_limit, total_cost FROM episodes')
     episodes = cursor.fetchall()
-    
+
     if not episodes:
         print('No episodes found in production.')
     else:
@@ -26,14 +26,14 @@ def print_dashboard():
             print(f'\nEPISODE: {title} ({ep_id})')
             print(f'   ├─ Status: {status.upper()}')
             print(f'   ├─ Phase:  {phase.upper()}')
-            
+
             # Budget Bar logic
             percent = (cost / budget) * 100 if budget > 0 else 0
             bar_filled = int(percent / 5)
             bar_empty = 20 - bar_filled
             bar = '█' * bar_filled + '░' * bar_empty
             print(f'   └─ Budget: [{bar}] ${cost:.2f} / ${budget:.2f} ({percent:.1f}%)')
-            
+
             print('\n   RECENT JOBS (Last 5):')
             cursor.execute('SELECT id, department, task_type, status, cost FROM jobs WHERE episode_id=? ORDER BY id DESC LIMIT 5', (ep_id,))
             jobs = cursor.fetchall()
@@ -44,7 +44,7 @@ def print_dashboard():
                     print(f'      {status_icon} Job #{j_id:03d} | {dept} | {ttype} | Cost: ${jcost:.2f}')
             else:
                 print('      No jobs recorded yet.')
-                
+
     print('\n' + '='*60)
     conn.close()
 

@@ -11,7 +11,7 @@ if not api_key:
     print('WARNING: GEMINI_API_KEY not found in .env')
 
 llm = ChatGoogleGenerativeAI(
-    model='gemini-1.5-pro', 
+    model='gemini-1.5-pro',
     google_api_key=api_key if api_key else 'dummy_key'
 )
 

@@ -1,12 +1,8 @@
 import os
-from dotenv import load_dotenv
-from crewai import Agent, Task, Crew, Process, LLM
+from crewai import Agent, Task, Crew, Process
+from providers.gemini import create_crewai_llm
 
-load_dotenv()
-api_key = os.getenv('GEMINI_API_KEY')
-os.environ['GOOGLE_API_KEY'] = api_key
-
-gemini_llm = LLM(model='gemini/gemini-3.1-pro-preview', api_key=api_key)
+gemini_llm = create_crewai_llm()
 
 # 1. Define the Motion Agent
 motion_agent = Agent(
@@ -21,7 +17,7 @@ motion_agent = Agent(
 # 2. Define the Task
 motion_task = Task(
     description='''Review the Episode 001 Script and the Character Bible.
-    We have 10 established characters: 
+    We have 10 established characters:
     1. Sokkar (Squirrel)
     2. Felix (Fox)
     3. Bonnie (Rabbit)
@@ -32,7 +28,7 @@ motion_task = Task(
     8. Ricky (Raccoon)
     9. Henry (Hedgehog)
     10. Freddy (Frog)
-    
+
     Task: Write the exact 'Video Generation Prompts' for each scene to be fed into the Video AI (like Veo 3 or Sora).
     CRITICAL RULE: Ensure the setting (a bright, sunlit, magical green forest with a picnic area) is explicitly described in EVERY prompt so the video AI keeps the background consistent across all 10 characters.
     Style rule to append to every prompt: '3D animated, Pixar style, vibrant colors, highly detailed, 4k resolution, cinematic lighting, calm and child-safe movement.'
@@ -51,10 +47,10 @@ motion_crew = Crew(
 if __name__ == '__main__':
     print('Triggering Phase 3 & 4: Motion Engine...')
     result = motion_crew.kickoff()
-    
+
     output_dir = 'episodes/ep_001_picnic_journey/video'
     os.makedirs(output_dir, exist_ok=True)
     with open(f'{output_dir}/animation_prompts.md', 'w', encoding='utf-8') as f:
         f.write(str(result))
-    
+
     print('\nMotion prompts successfully generated and saved to episodes/ep_001_picnic_journey/video/animation_prompts.md')
