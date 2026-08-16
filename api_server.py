@@ -79,7 +79,7 @@ def root():
     return {
         "name": "Atlas Kids Media API",
         "version": "2.0.1",
-        "status": "operational",
+        "status": "legacy-reference",
         "auth_required": True,
         "docs": "/docs",
         "endpoints": {
@@ -96,7 +96,7 @@ def get_status(request: Request, user: dict = Depends(require_read)):
     episodes = cm.list_configs()
     AuthLogger.log(request, user, "/status")
     return {
-        "factory_status": "operational",
+        "factory_status": "legacy-reference",
         "authenticated_as": user["role"],
         "total_episodes_configured": len(episodes),
         "episodes": episodes,

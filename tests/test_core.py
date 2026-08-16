@@ -1,6 +1,7 @@
 from atlas_core.asset_vault import AssetVault
 from atlas_core.job_manager import AtlasJobManager
 from atlas_core.qa_gate import QualityGate
+from examples.offline_demo import main as offline_main
 
 
 def test_job_lifecycle_and_duplicate_prevention(tmp_path):
@@ -33,3 +34,10 @@ def test_asset_registry(tmp_path):
     assert vault.register_asset("story-1", "story", "Fixture", "examples/story.md")
     assert vault.get_asset("story-1")[2] == "Fixture"
     assert len(vault.list_assets("story")) == 1
+
+
+def test_offline_example(capsys):
+    offline_main()
+    output = capsys.readouterr().out
+    assert "Provider: DRY_RUN" in output
+    assert "output created: False" in output

@@ -31,7 +31,7 @@ whisper = ["openai-whisper>=20231117"]
 dev = ["pytest>=8,<9", "requests>=2.32,<3"]
 
 [tool.setuptools]
-packages = ["atlas_core", "providers", "publisher"]
+packages = ["atlas_core", "examples", "providers", "publisher"]
 py-modules = [
   "analytics_engine",
   "api_server",
@@ -56,3 +56,4 @@ py-modules = [
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
+pythonpath = ["."]

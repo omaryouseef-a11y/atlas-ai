@@ -68,7 +68,7 @@ This installs the core and test dependencies only. It does not install or contac
 ## Quick start: offline example
 
 ```bash
-python examples/offline_demo.py
+python -m examples.offline_demo
 ```
 
 The example uses a temporary SQLite database, registers a fixture, exercises QA and job tracking, and returns an explicit `DRY_RUN` provider result. It creates no media and performs no network request.
@@ -87,7 +87,7 @@ Provider setup and data-disclosure notes are in [Providers](docs/PROVIDERS.md). 
 ## Example workflow
 
 1. Inspect `examples/episode.yaml` and `examples/story.md`.
-2. Run `python examples/offline_demo.py`.
+2. Run `python -m examples.offline_demo`.
 3. Run `pytest`.
 4. If studying a legacy cloud adapter, install only its named extra and read its provider notes first.
 5. Review every generated output manually. Never treat the QA prompt rules as a child-safety guarantee.
@@ -95,7 +95,7 @@ Provider setup and data-disclosure notes are in [Providers](docs/PROVIDERS.md). 
 ## Testing
 
 ```bash
-pytest
+python -m pytest
 ```
 
 The suite is offline and covers configuration parsing, job lifecycle, duplicate-result detection, QA, assets, safe paths and symlink escape, missing providers, dry-run behavior, Python syntax, and the loopback-only API default.

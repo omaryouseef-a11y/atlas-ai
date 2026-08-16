@@ -7,8 +7,8 @@ Use Python 3.10 or newer in a virtual environment, then run `python -m pip insta
 ## Required checks
 
 ```bash
-pytest
-python examples/offline_demo.py
+python -m pytest
+python -m examples.offline_demo
 git diff --check
 ```
 

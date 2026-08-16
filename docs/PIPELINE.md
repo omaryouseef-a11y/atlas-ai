@@ -9,7 +9,7 @@
 5. Invoke `DryRunProvider`, which returns `DRY_RUN` and creates no output.
 6. Record the result and inspect job statistics.
 
-Run it with `python examples/offline_demo.py`.
+Run it with `python -m examples.offline_demo`.
 
 ## Historical extended flow
 
