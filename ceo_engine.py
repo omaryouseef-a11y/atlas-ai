@@ -1,19 +1,7 @@
-import os
-from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, Process
-from langchain_google_genai import ChatGoogleGenerativeAI
+from providers.gemini import create_langchain_llm
 
-load_dotenv()
-
-# Setup Gemini LLM
-api_key = os.getenv('GEMINI_API_KEY')
-if not api_key:
-    print('WARNING: GEMINI_API_KEY not found in .env')
-
-llm = ChatGoogleGenerativeAI(
-    model='gemini-1.5-pro', 
-    google_api_key=api_key if api_key else 'dummy_key'
-)
+llm = create_langchain_llm()
 
 # 1. Define the CEO Agent
 ceo_agent = Agent(

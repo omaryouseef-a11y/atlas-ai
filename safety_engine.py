@@ -1,12 +1,8 @@
 import os
-from dotenv import load_dotenv
-from crewai import Agent, Task, Crew, Process, LLM
+from crewai import Agent, Task, Crew, Process
+from providers.gemini import create_crewai_llm
 
-load_dotenv()
-api_key = os.getenv('GEMINI_API_KEY')
-os.environ['GOOGLE_API_KEY'] = api_key
-
-gemini_llm = LLM(model='gemini/gemini-3.1-pro-preview', api_key=api_key)
+gemini_llm = create_crewai_llm()
 
 class SafetyEngine:
     """
@@ -37,7 +33,7 @@ class SafetyEngine:
         task = Task(
             description=f'''
             Perform a comprehensive safety review of this children's script.
-            
+
             CHECKLIST (must pass ALL):
             1. NO violence, aggression, or physical conflict (even playful)
             2. NO scary content, monsters, dark themes, or frightening situations
@@ -49,10 +45,10 @@ class SafetyEngine:
             8. Cultural sensitivity: no appropriation, all representations respectful
             9. COPPA compliance: no data collection prompts, no external links to unsafe sites
             10. The script must have a clear, positive moral lesson
-            
+
             For each item, state PASS or FAIL with specific evidence.
             If ANY item fails, the script is REJECTED.
-            
+
             SCRIPT:
             {script}
             ''',
@@ -69,16 +65,16 @@ class SafetyEngine:
         task = Task(
             description=f'''
             Review this AI video generation prompt for child safety:
-            
+
             PROMPT: {prompt_text}
-            
+
             Check for:
             1. No frightening imagery (dark forests, scary animals, storms)
             2. No realistic weapons or dangerous situations
             3. Appropriate clothing/body representation for characters
             4. Safe color palette (bright, warm, not dark or violent)
             5. Movement descriptions are calm and child-safe
-            
+
             Return: SAFE or UNSAFE with specific reasoning.
             ''',
             expected_output='A brief safety verdict: SAFE or UNSAFE with reasoning.',
@@ -108,17 +104,17 @@ class SafetyEngine:
         task = Task(
             description=f'''
             Review this YouTube metadata for child safety and COPPA compliance:
-            
+
             METADATA:
             {metadata_text}
-            
+
             Check:
             1. Title is not clickbait or misleading
             2. Description contains no external links to unsafe sites
             3. No requests for personal information from children
             4. Tags are appropriate and not exploiting child-related search terms inappropriately
             5. Made for Kids flag is correctly set
-            
+
             Return: COMPLIANT or NON-COMPLIANT with specific issues.
             ''',
             expected_output='Compliance report with specific issues if any.',
@@ -157,6 +153,6 @@ class SafetyEngine:
 
 if __name__ == '__main__':
     engine = SafetyEngine()
-    result = engine.review_script('episodes/ep_001_picnic_journey/script/story_v2.md')
+    result = engine.review_script('episodes/ep_001_picnic_journey/script/story.md')
     print(f'Safety check: {"APPROVED" if result["approved"] else "REJECTED"}')
     engine.save_report('ep_001_picnic_journey', result)

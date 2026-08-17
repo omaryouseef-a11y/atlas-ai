@@ -1,13 +1,8 @@
-import sqlite3
-import os
-import sys
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from atlas_core.job_manager import AtlasJobManager
 
 class QualityGate:
-    def __init__(self):
-        self.jm = AtlasJobManager()
+    def __init__(self, db_path="atlas.db"):
+        self.jm = AtlasJobManager(db_path)
 
     def review_video_prompt(self, episode_id, prompt_text):
         # 1. Budget Check
@@ -21,7 +16,7 @@ class QualityGate:
             return False, 'REJECTED BY QA: Missing required background consistency phrase.'
 
         # 3. Style Check
-        required_style = 'Pixar style'
+        required_style = '3D animated'
         if required_style.lower() not in prompt_text.lower():
             return False, 'REJECTED BY QA: Missing required Pixar style phrase.'
 

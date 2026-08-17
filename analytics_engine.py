@@ -1,9 +1,9 @@
 import os
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
-import pickle
+from google.oauth2.credentials import Credentials
 
 class AnalyticsEngine:
     """
@@ -12,7 +12,7 @@ class AnalyticsEngine:
     Feeds insights back into the content creation pipeline.
     """
 
-    def __init__(self, credentials_path='token.pickle'):
+    def __init__(self, credentials_path='token.json'):
         self.credentials_path = credentials_path
         self.youtube = None
         self._authenticate()
@@ -20,11 +20,10 @@ class AnalyticsEngine:
     def _authenticate(self):
         """Authenticate with YouTube Analytics API."""
         if not os.path.exists(self.credentials_path):
-            print('[AnalyticsEngine] WARNING: No credentials found. Running in simulation mode.')
+            print('[AnalyticsEngine] NOT_CONFIGURED: OAuth credentials are absent.')
             return
 
-        with open(self.credentials_path, 'rb') as token:
-            creds = pickle.load(token)
+        creds = Credentials.from_authorized_user_file(self.credentials_path)
 
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
@@ -35,7 +34,7 @@ class AnalyticsEngine:
     def get_video_stats(self, video_id):
         """Get basic stats for a single video."""
         if not self.youtube:
-            return self._simulate_stats(video_id)
+            raise RuntimeError('PROVIDER_UNAVAILABLE: YouTube analytics is not configured')
 
         response = self.youtube.videos().list(
             part='statistics,snippet,contentDetails',
@@ -62,7 +61,7 @@ class AnalyticsEngine:
     def get_channel_stats(self):
         """Get overall channel statistics."""
         if not self.youtube:
-            return {'status': 'simulated'}
+            raise RuntimeError('PROVIDER_UNAVAILABLE: YouTube analytics is not configured')
 
         # Get channel ID from token
         channels = self.youtube.channels().list(
@@ -170,19 +169,6 @@ class AnalyticsEngine:
         print(f'[AnalyticsEngine] Report saved: {output_path}')
         return output_path
 
-    def _simulate_stats(self, video_id):
-        """Simulate stats when API is unavailable."""
-        return {
-            'video_id': video_id,
-            'title': 'Simulated Video',
-            'published_at': datetime.now().isoformat(),
-            'views': 1500,
-            'likes': 120,
-            'comments': 15,
-            'duration': 'PT1M30S',
-            'simulated': True
-        }
-
     def update_episode_analytics(self, episode_id, video_id, db_path='atlas.db'):
         """Store analytics in the database for long-term tracking."""
         import sqlite3
@@ -211,8 +197,5 @@ class AnalyticsEngine:
 
 if __name__ == '__main__':
     engine = AnalyticsEngine()
-    # Simulate report
-    report = engine.generate_performance_report(['SIMULATED_ID_1', 'SIMULATED_ID_2'])
-    if report:
-        print(json.dumps(report, indent=2, ensure_ascii=False))
-        engine.save_report(report, 'reports/performance_report.json')
+    if not engine.youtube:
+        print('NOT_CONFIGURED: no analytics request was attempted.')

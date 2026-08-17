@@ -1,10 +1,11 @@
 import sqlite3
-import os
+from pathlib import Path
 
-DB_PATH = 'atlas.db'
-
-def setup_database():
-    conn = sqlite3.connect(DB_PATH)
+def setup_database(db_path: str | Path = "atlas.db") -> Path:
+    """Create the legacy reference schema at an explicitly selected path."""
+    path = Path(db_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(path)
     cursor = conn.cursor()
 
     # 1. Projects/Episodes Table
@@ -67,7 +68,7 @@ def setup_database():
 
     conn.commit()
     conn.close()
-    print('Atlas Core Database initialized successfully.')
+    return path
 
 if __name__ == '__main__':
     setup_database()

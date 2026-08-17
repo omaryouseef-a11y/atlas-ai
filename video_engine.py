@@ -1,12 +1,13 @@
 import os
 import time
 import requests
-from dotenv import load_dotenv
-
-load_dotenv()
 
 FAL_API_KEY = os.getenv('FAL_API_KEY')
 FAL_VIDEO_ENDPOINT = 'https://queue.fal.run/fal-ai/veo3'  # Veo 3 via Fal.ai
+
+class ProviderUnavailableError(RuntimeError):
+    """Raised when an optional provider has not been configured."""
+
 
 class VideoEngine:
     """
@@ -15,26 +16,25 @@ class VideoEngine:
     Supports Veo 3, Kling, and other models via Fal.ai's unified API.
     """
 
-    def __init__(self):
+    def __init__(self, *, dry_run=False):
         self.api_key = FAL_API_KEY
-        if not self.api_key:
-            print('WARNING: FAL_API_KEY not found. Video generation will be simulated.')
-        self.headers = {
-            'Authorization': f'Key {self.api_key}',
-            'Content-Type': 'application/json'
-        }
+        self.dry_run = dry_run
+        self.headers = {'Content-Type': 'application/json'}
+        if self.api_key:
+            self.headers['Authorization'] = f'Key {self.api_key}'
 
     def generate_video(self, prompt, output_path, aspect_ratio='16:9', duration=5):
         """
         Generate a video clip from a text prompt.
         Returns the path to the downloaded video file.
         """
+        if self.dry_run:
+            print('[VideoEngine] DRY_RUN: no provider request or media file was created.')
+            return None, 0.0
         if not self.api_key:
-            print(f'[VideoEngine] SIMULATING video generation for: {prompt[:50]}...')
-            # Create a placeholder file
-            with open(output_path, 'w') as f:
-                f.write('MOCK_VIDEO')
-            return output_path, 0.0
+            raise ProviderUnavailableError(
+                'PROVIDER_UNAVAILABLE: set FAL_API_KEY to enable optional video generation'
+            )
 
         print(f'[VideoEngine] Submitting prompt to Fal.ai: {prompt[:60]}...')
 

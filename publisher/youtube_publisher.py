@@ -1,10 +1,9 @@
 import os
-import json
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import pickle
+from google.oauth2.credentials import Credentials
 
 # YouTube Data API v3 scopes
 SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
@@ -16,20 +15,21 @@ class YouTubePublisher:
     Also manages playlist organization and scheduling.
     """
 
-    def __init__(self, credentials_path='client_secrets.json'):
+    def __init__(self, credentials_path='client_secrets.json', *, dry_run=False):
         self.credentials_path = credentials_path
+        self.dry_run = dry_run
         self.youtube = None
-        self._authenticate()
+        if not dry_run:
+            self._authenticate()
 
     def _authenticate(self):
         """Authenticate with YouTube Data API via OAuth2."""
         creds = None
-        token_file = 'token.pickle'
+        token_file = 'token.json'
 
         # Load existing token
         if os.path.exists(token_file):
-            with open(token_file, 'rb') as token:
-                creds = pickle.load(token)
+            creds = Credentials.from_authorized_user_file(token_file, SCOPES)
 
         # Refresh or create new credentials
         if not creds or not creds.valid:
@@ -37,17 +37,16 @@ class YouTubePublisher:
                 creds.refresh(Request())
             else:
                 if not os.path.exists(self.credentials_path):
-                    print(f'[YouTubePublisher] WARNING: {self.credentials_path} not found.')
-                    print('Please download client secrets from Google Cloud Console.')
-                    print('Publisher will run in SIMULATION mode.')
+                    print('[YouTubePublisher] NOT_CONFIGURED: OAuth credentials are absent.')
                     return
                 flow = InstalledAppFlow.from_client_secrets_file(
                     self.credentials_path, SCOPES)
                 creds = flow.run_local_server(port=0)
 
             # Save token for future runs
-            with open(token_file, 'wb') as token:
-                pickle.dump(creds, token)
+            with open(token_file, 'w', encoding='utf-8') as token:
+                token.write(creds.to_json())
+            os.chmod(token_file, 0o600)
 
         self.youtube = build('youtube', 'v3', credentials=creds)
         print('[YouTubePublisher] Authenticated successfully.')
@@ -59,12 +58,10 @@ class YouTubePublisher:
         privacy_status: 'private', 'unlisted', or 'public'
         category_id: 27 = Education, 1 = Film & Animation, etc.
         """
+        if self.dry_run:
+            return {'id': None, 'status': 'DRY_RUN'}
         if not self.youtube:
-            print('[YouTubePublisher] SIMULATION MODE: Would upload:')
-            print(f'  Video: {video_path}')
-            print(f'  Title: {title}')
-            print(f'  Tags: {tags}')
-            return {'id': 'SIMULATED_VIDEO_ID', 'status': 'simulated'}
+            raise RuntimeError('PROVIDER_UNAVAILABLE: YouTube OAuth is not configured')
 
         body = {
             'snippet': {
@@ -113,9 +110,10 @@ class YouTubePublisher:
 
     def add_to_playlist(self, video_id, playlist_id):
         """Add video to a playlist."""
+        if self.dry_run:
+            return {'status': 'DRY_RUN'}
         if not self.youtube:
-            print(f'[YouTubePublisher] SIMULATION: Would add {video_id} to playlist {playlist_id}')
-            return
+            raise RuntimeError('PROVIDER_UNAVAILABLE: YouTube OAuth is not configured')
 
         self.youtube.playlistItems().insert(
             part='snippet',
@@ -136,9 +134,10 @@ class YouTubePublisher:
         Schedule a video for future publication.
         publish_at: ISO 8601 datetime string (e.g., '2026-08-01T10:00:00Z')
         """
+        if self.dry_run:
+            return {'status': 'DRY_RUN'}
         if not self.youtube:
-            print(f'[YouTubePublisher] SIMULATION: Would schedule {video_id} for {publish_at}')
-            return
+            raise RuntimeError('PROVIDER_UNAVAILABLE: YouTube OAuth is not configured')
 
         self.youtube.videos().update(
             part='status',

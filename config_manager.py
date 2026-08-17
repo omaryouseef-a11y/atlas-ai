@@ -1,6 +1,9 @@
 import os
 import yaml
 from datetime import datetime
+from pathlib import Path
+
+from atlas_core.paths import safe_child, validate_identifier
 
 class ConfigManager:
     """
@@ -10,8 +13,12 @@ class ConfigManager:
     """
 
     def __init__(self, config_dir='configs'):
-        self.config_dir = config_dir
-        os.makedirs(config_dir, exist_ok=True)
+        self.config_dir = Path(config_dir).expanduser().resolve()
+        self.config_dir.mkdir(parents=True, exist_ok=True)
+
+    def _path_for(self, episode_id):
+        validate_identifier(episode_id, label="episode ID")
+        return safe_child(self.config_dir, f"{episode_id}.yaml")
 
     def create_episode_config(self, episode_id, title, educational_goal, characters,
                                target_age='3-7', language='arabic', budget_limit=20.0,
@@ -87,16 +94,16 @@ class ConfigManager:
             }
         }
 
-        path = f'{self.config_dir}/{episode_id}.yaml'
+        path = self._path_for(episode_id)
         with open(path, 'w', encoding='utf-8') as f:
             yaml.dump(config, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
 
         print(f'[ConfigManager] Created config: {path}')
-        return path
+        return str(path)
 
     def load_config(self, episode_id):
         """Load an episode configuration."""
-        path = f'{self.config_dir}/{episode_id}.yaml'
+        path = self._path_for(episode_id)
         if not os.path.exists(path):
             print(f'[ConfigManager] Config not found: {path}')
             return None
@@ -114,7 +121,7 @@ class ConfigManager:
         self._deep_update(config, updates)
         config['episode']['updated_at'] = datetime.now().isoformat()
 
-        path = f'{self.config_dir}/{episode_id}.yaml'
+        path = self._path_for(episode_id)
         with open(path, 'w', encoding='utf-8') as f:
             yaml.dump(config, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
 
@@ -131,7 +138,7 @@ class ConfigManager:
 
     def list_configs(self):
         """List all episode configs."""
-        files = [f for f in os.listdir(self.config_dir) if f.endswith('.yaml')]
+        files = [f.name for f in self.config_dir.iterdir() if f.suffix == '.yaml']
         return [f.replace('.yaml', '') for f in files]
 
     def get_production_plan(self, episode_id):
@@ -175,7 +182,6 @@ if __name__ == '__main__':
     cm.create_episode_config(
         episode_id='ep_003_space_journey',
         title='The Space Journey',
-        title_arabic='رحلة الفضاء',
         educational_goal='Learning shapes in Arabic',
         characters=['Sokkar', 'Felix', 'Bonnie', 'Barnaby', 'Tweety', 'Bambi', 'Torti', 'Ricky', 'Henry', 'Freddy'],
         target_age='3-7',

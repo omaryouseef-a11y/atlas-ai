@@ -182,6 +182,6 @@ if __name__ == '__main__':
     engine = SubtitleEngine()
     # Generate from script
     engine.generate_srt_from_script(
-        'episodes/ep_001_picnic_journey/script/story_v2.md',
+        'episodes/ep_001_picnic_journey/script/story.md',
         'episodes/ep_001_picnic_journey/final/subtitles.srt'
     )

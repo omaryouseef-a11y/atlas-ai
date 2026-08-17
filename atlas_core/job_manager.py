@@ -1,20 +1,17 @@
 import sqlite3
-import json
-import sys
-import os
-from datetime import datetime
+from pathlib import Path
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import atlas_core.db_setup
-
-DB_PATH = 'atlas.db'
+from atlas_core.db_setup import setup_database
 
 class AtlasJobManager:
-    def __init__(self):
-        atlas_core.db_setup.setup_database()
+    def __init__(self, db_path: str | Path = "atlas.db"):
+        self.db_path = setup_database(db_path)
+
+    def _connect(self):
+        return sqlite3.connect(self.db_path)
 
     def create_episode(self, ep_id, title, budget_limit=5.0):
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('INSERT OR IGNORE INTO episodes (id, title, status, current_phase, budget_limit) VALUES (?, ?, ?, ?, ?)',
                        (ep_id, title, 'pending', 'script', budget_limit))
@@ -23,10 +20,10 @@ class AtlasJobManager:
         return ep_id
 
     def check_job_exists(self, episode_id, department, task_type, input_data):
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT output_data FROM jobs 
+            SELECT output_data FROM jobs
             WHERE episode_id=? AND department=? AND task_type=? AND input_data=? AND status='completed'
         ''', (episode_id, department, task_type, str(input_data)))
         result = cursor.fetchone()
@@ -34,7 +31,7 @@ class AtlasJobManager:
         return result[0] if result else None
 
     def start_job(self, episode_id, department, task_type, input_data):
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO jobs (episode_id, department, task_type, input_data, status)
@@ -46,7 +43,7 @@ class AtlasJobManager:
         return job_id
 
     def complete_job(self, job_id, episode_id, output_data, cost=0.0):
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('''
             UPDATE jobs SET status='completed', output_data=?, cost=? WHERE id=?
@@ -57,7 +54,7 @@ class AtlasJobManager:
 
     def fail_job(self, job_id, error_message):
         """Mark a job as failed with error log."""
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('''
             UPDATE jobs SET status='failed', error_log=? WHERE id=?
@@ -66,7 +63,7 @@ class AtlasJobManager:
         conn.close()
 
     def check_budget(self, episode_id):
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('SELECT total_cost, budget_limit FROM episodes WHERE id=?', (episode_id,))
         result = cursor.fetchone()
@@ -82,7 +79,7 @@ class AtlasJobManager:
 
     def update_phase(self, episode_id, phase):
         """Update the current production phase of an episode."""
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('UPDATE episodes SET current_phase=?, updated_at=CURRENT_TIMESTAMP WHERE id=?',
                        (phase, episode_id))
@@ -91,7 +88,7 @@ class AtlasJobManager:
 
     def update_status(self, episode_id, status):
         """Update the overall status of an episode."""
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('UPDATE episodes SET status=?, updated_at=CURRENT_TIMESTAMP WHERE id=?',
                        (status, episode_id))
@@ -100,7 +97,7 @@ class AtlasJobManager:
 
     def get_episode_stats(self, episode_id):
         """Get full stats for an episode."""
-        conn = sqlite3.connect(DB_PATH)
+        conn = self._connect()
         cursor = conn.cursor()
         cursor.execute('''
             SELECT id, title, status, current_phase, budget_limit, total_cost, created_at, updated_at

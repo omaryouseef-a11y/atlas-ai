@@ -1,12 +1,8 @@
 import os
-from dotenv import load_dotenv
-from crewai import Agent, Task, Crew, Process, LLM
+from crewai import Agent, Task, Crew, Process
+from providers.gemini import create_crewai_llm
 
-load_dotenv()
-api_key = os.getenv('GEMINI_API_KEY')
-os.environ['GOOGLE_API_KEY'] = api_key
-
-gemini_llm = LLM(model='gemini/gemini-3.1-pro-preview', api_key=api_key)
+gemini_llm = create_crewai_llm()
 
 class StoryboardEngine:
     """
@@ -40,7 +36,7 @@ class StoryboardEngine:
         task = Task(
             description=f'''
             Create a detailed visual storyboard for this children's animation script.
-            
+
             For EACH scene, provide:
             1. SHOT NUMBER (e.g., Scene 1A, Scene 1B)
             2. SHOT TYPE (Wide, Medium, Close-up, Extreme Close-up, Over-the-shoulder, Aerial)
@@ -52,10 +48,10 @@ class StoryboardEngine:
             8. COLOR PALETTE (Dominant colors for this shot)
             9. DURATION (Estimated seconds)
             10. TRANSITION TO NEXT SHOT (Cut, Fade, Dissolve, Wipe)
-            
+
             CRITICAL: Ensure character designs remain consistent across all shots.
             The magical green forest setting must look identical in every wide shot.
-            
+
             SCRIPT:
             {script}
             ''',
@@ -91,14 +87,14 @@ class StoryboardEngine:
             description=f'''
             Convert this storyboard into image generation prompts.
             For each shot, create ONE detailed prompt suitable for DALL-E 3 or Midjourney.
-            
+
             Rules:
             - 16:9 aspect ratio
             - Pixar 3D animation style
             - Highly detailed
             - Include all characters mentioned in the shot
             - Specify exact camera angle and composition
-            
+
             STORYBOARD:
             {storyboard}
             ''',
@@ -129,7 +125,7 @@ class StoryboardEngine:
             description=f'''
             Extract a concise shot list from this storyboard.
             Format as a table: Shot # | Type | Duration | Characters | Background | Notes
-            
+
             STORYBOARD:
             {storyboard}
             ''',
@@ -145,6 +141,6 @@ class StoryboardEngine:
 if __name__ == '__main__':
     engine = StoryboardEngine()
     engine.generate_storyboard(
-        'episodes/ep_001_picnic_journey/script/story_v2.md',
+        'episodes/ep_001_picnic_journey/script/story.md',
         'ep_001_picnic_journey'
     )

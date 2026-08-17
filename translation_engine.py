@@ -1,12 +1,8 @@
 import os
-from dotenv import load_dotenv
-from crewai import Agent, Task, Crew, Process, LLM
+from crewai import Agent, Task, Crew, Process
+from providers.gemini import create_crewai_llm
 
-load_dotenv()
-api_key = os.getenv('GEMINI_API_KEY')
-os.environ['GOOGLE_API_KEY'] = api_key
-
-gemini_llm = LLM(model='gemini/gemini-3.1-pro-preview', api_key=api_key)
+gemini_llm = create_crewai_llm()
 
 class TranslationEngine:
     """
@@ -143,7 +139,7 @@ class TranslationEngine:
 
             # Translate script
             script_result = self.translate_script(
-                f'{base_path}/script/story_v2.md',
+                f'{base_path}/script/story.md',
                 lang,
                 f'{lang_path}/script/story_{lang_code}.md'
             )
@@ -167,7 +163,7 @@ if __name__ == '__main__':
     engine = TranslationEngine()
     # Translate Episode 001 to English
     engine.translate_script(
-        'episodes/ep_001_picnic_journey/script/story_v2.md',
+        'episodes/ep_001_picnic_journey/script/story.md',
         'english',
         'episodes/ep_001_picnic_journey/script/story_en.md'
     )

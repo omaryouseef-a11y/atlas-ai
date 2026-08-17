@@ -8,9 +8,8 @@ from editor_engine import EditorEngine
 from thumbnail_engine import ThumbnailEngine
 from metadata_engine import MetadataEngine
 from publisher.youtube_publisher import YouTubePublisher
-from monetization.store import DigitalStore
 
-def run_full_pipeline(episode_id):
+def run_full_pipeline(episode_id, *, allow_publish=False):
     """
     Atlas Full Factory Pipeline
     Runs the complete end-to-end production for an episode:
@@ -37,7 +36,7 @@ def run_full_pipeline(episode_id):
 
     # Phase 4: Video Generation
     print('\n--- PHASE 4: VIDEO GENERATION ---')
-    prompts_file = f'episodes/{episode_id}/video_v2/animation_prompts_v2.md'
+    prompts_file = f'episodes/{episode_id}/video/animation_prompts.md'
     if os.path.exists(prompts_file):
         results = orc.generate_all_clips(episode_id, prompts_file)
         successful = [r for r in results if r]
@@ -50,8 +49,8 @@ def run_full_pipeline(episode_id):
     print('\n--- PHASE 5: VIDEO EDITING ---')
     jm.update_phase(episode_id, 'editing')
     editor = EditorEngine(episode_id)
-    video_dir = f'episodes/{episode_id}/video_v2'
-    audio_dir = f'episodes/{episode_id}/voice_v2'
+    video_dir = f'episodes/{episode_id}/video'
+    audio_dir = f'episodes/{episode_id}/voice'
     final_video = editor.assemble_episode(video_dir, audio_dir)
 
     if not final_video:
@@ -82,9 +81,14 @@ def run_full_pipeline(episode_id):
     meta_engine.save_metadata(episode_id, metadata)
     print('Metadata saved.')
 
-    # Phase 8: Publishing
+    # Phase 8: Publishing (explicit opt-in only)
     print('\n--- PHASE 8: PUBLISHING ---')
     jm.update_phase(episode_id, 'publishing')
+    if not allow_publish:
+        jm.update_status(episode_id, 'ready_for_approval')
+        print('NOT_CONFIGURED: publishing is disabled; output is ready for review.')
+        return {'status': 'NOT_CONFIGURED', 'final_video': final_video}
+
     publisher = YouTubePublisher()
     meta_data = meta_engine.parse_metadata(metadata)
 
@@ -105,16 +109,6 @@ def run_full_pipeline(episode_id):
     else:
         jm.update_status(episode_id, 'ready_for_approval')
         print(f'\n Episode {episode_id} is ready for manual review and publishing.')
-
-    # Phase 9: Digital Store Generation (Monetization)
-    print('\n--- PHASE 9: DIGITAL STORE GENERATION ---')
-    jm.update_phase(episode_id, 'digital_store')
-    store = DigitalStore()
-    product_url = store.process_new_video(
-        character_prompts=meta_data.get('characters', ['Sokkar', 'Felix', 'Bonnie', 'Barnaby', 'Tweety', 'Bambi', 'Torti', 'Ricky', 'Henry', 'Freddy']),
-        video_id=episode_id,
-        title=meta_data.get('title', f'Atlas Kids Media - {episode_id}')
-    )
 
     # Final Report
     print(f'\n{"="*60}')

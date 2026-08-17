@@ -1,70 +1,69 @@
-# Atlas Kids Media - Episode 001: The Great Forest Picnic Journey
-**Title:** رحلة نزهة الغابة الكبرى (The Great Forest Picnic Journey)
-**Target Audience:** 3-7 years old
-**Educational Goal:** Teamwork and Sharing (التعاون والمشاركة)
-**Language:** Simple Arabic (اللغة العربية المبسطة)
+# Episode 001: The Great Forest Picnic Journey - V2
+
+**Educational Goal:** Counting from 1 to 10
+**Pacing:** Extremely Fast (Under 1 minute total duration)
+**Language:** Simple Arabic (Dialogue) / English (Stage Directions)
 
 ---
 
-### Scene 1: The Invitation (الدعوة)
-**[Visual]** 
-غابة خضراء مشمسة وجميلة. أشجارها طويلة وبها أزهار ملونة. الدب "بارنابي" (Barnaby) يقف في المنتصف يحمل سلة نزهة كبيرة ولكنها فارغة. يبدو حزيناً قليلاً. فجأة، يقفز السنجاب النشيط "سُكَّر" (Sokkar) بسرعة ذهاباً وإياباً، وتقترب الأرنبة اللطيفة "بوني" (Bonnie) بخطوات خفيفة وهادئة.
-
+**[Scene 1]**
+**[Visual]** A bright, sunny forest clearing. Fast, upbeat, rhythmic music starts. Sokkar (Squirrel) hops into the center of the frame, facing the camera with a big smile. (1 character on screen).
 **[Audio/Dialogue]**
-**بارنابي (Barnaby):** (بصوت دافئ ولطيف) مرحباً يا أصدقاء! الجو جميل اليوم. أريد أن أقيم نزهة كبيرة، لكني لا أستطيع جمع الطعام وحدي. السلة كبيرة جداً.
-**سُكَّر (Sokkar):** (بحماس وهو يقفز عالياً) لا تقلق يا بارنابي! أنا سُكَّر، أنا مليء بالطاقة وسأساعدك!
-**بوني (Bonnie):** (بصوت رقيق وابتسامة) وأنا أيضاً سأساعد. سأحضر الجزر الطازج واللذيذ. العمل معاً يسهل الأمور!
+**SOKKAR:** واحد! (One!)
 
----
-
-### Scene 2: Gathering and Cleaning (الجمع والتنظيف)
-**[Visual]** 
-عند شجرة تفاح كبيرة. الثعلب "فيليكس" (Felix) يركض بسرعة ومهارة ليلتقط التفاح المتساقط قبل أن يلمس الأرض. يمرر التفاح إلى الراكون "ريكي" (Ricky) الذي يقف بجوار جدول ماء صغير وصافٍ. "ريكي" يفرك التفاح بالماء بحماس.
-
+**[Scene 2]**
+**[Visual]** Felix (Fox) dashes into the frame with a quick "whoosh" sound, stopping right next to Sokkar. (2 characters on screen).
 **[Audio/Dialogue]**
-**فيليكس (Felix):** (بثقة وسرعة) أنا ذكي وسريع! لقد جمعت الكثير من التفاح الأحمر في ثوانٍ.
-**ريكي (Ricky):** (وهو يغسل التفاح بسعادة) عمل رائع يا فيليكس! يجب أن نغسل الطعام جيداً بالماء ليكون نظيفاً وصحياً. النظافة مهمة جداً!
+**FELIX:** اثنان! (Two!)
 
----
-
-### Scene 3: Beauty and Sweets (الجمال والحلوى)
-**[Visual]** 
-في حقل صغير مليء بالزهور. الغزال "بامبي" (Bambi) يجمع أزهاراً ملونة ويصنع منها طوقاً جميلاً. العصفورة "تويتي" (Tweety) تطير فوقه، وتحمل في منقارها الصغير غصناً به حبات من التوت الأزرق اللامع.
-
+**[Scene 3]**
+**[Visual]** Bonnie (Rabbit) springs high into the air, doing a flip, and lands next to Felix. (3 characters on screen).
 **[Audio/Dialogue]**
-**بامبي (Bambi):** (بسعادة وهو ينظر للأزهار) انظروا إلى هذه الأزهار الجميلة! لقد أحضرتها لتزيين مكان النزهة ليكون رائعاً.
-**تويتي (Tweety):** (بصوت عذب وموسيقي) زق زق! وأنا طرت عالياً وأحضرت التوت الحلو للجميع! سأغني لكم أغنية جميلة في النزهة.
+**BONNIE:** ثلاثة! (Three!)
 
----
-
-### Scene 4: Slow and Steady (في التأني السلامة)
-**[Visual]** 
-طريق ترابي يؤدي إلى البحيرة. السلحفاة "تورتي" (Torti) تمشي ببطء شديد ولكن بثبات. القنفذ الصغير "هنري" (Henry) يمشي بجانبها ويحمل سجادة نزهة حمراء وبيضاء مطوية بعناية فوق أشواكه برفق.
-
+**[Scene 4]**
+**[Visual]** Barnaby (Bear) lumbers into the frame holding a delicious red berry. He is about to eat it. (4 characters on screen).
 **[Audio/Dialogue]**
-**هنري (Henry):** (بصوت لطيف ومتحمس) أنا صغير جداً، لكنني قوي! لقد حملت سجادة النزهة على ظهري.
-**تورتي (Torti):** (بصوت هادئ وحكيم) أحسنت يا هنري الصغير. لا يهم أن نكون سريعين.. في التأني السلامة. عندما نتعاون، نصل دائماً في الوقت المناسب.
+**BARNABY:** أربعة! (Four!)
 
----
-
-### Scene 5: Welcome to the Lake (مرحباً في البحيرة)
-**[Visual]** 
-بركة ماء زرقاء لامعة تعكس ضوء الشمس. الضفدع "فريدي" (Freddy) يجلس على ورقة زنبق خضراء كبيرة. يرى الأصدقاء قادمين فيقفز في الهواء بحماس فاتحاً ذراعيه للترحيب بهم. الأصدقاء يصلون ومعهم السلة الممتلئة، السجادة، والزهور.
-
+**[Scene 5]**
+**[Visual]** Tweety (Bird) swoops down rapidly, playfully snatches the red berry right out of Barnaby's paw, and hovers above his head. (5 characters on screen).
 **[Audio/Dialogue]**
-**فريدي (Freddy):** (بابتسامة عريضة وصوت ودود) نِق نِق! أهلاً بكم يا أصدقائي في البحيرة! لقد كنت في انتظاركم. هذا أفضل وأجمل مكان لنزهتنا! تعالوا واجلسوا.
+**TWEETY:** خمسة! (Five!)
+**BARNABY:** (Playfully grumpy, reaching up) مهلاً! توتي! (Hey! My berry!)
 
----
-
-### Scene 6: Sharing is Caring (المشاركة تصنع السعادة)
-**[Visual]** 
-جميع الحيوانات العشرة يجلسون في دائرة على السجادة الحمراء والبيضاء. "بامبي" يضع الزهور في المنتصف. الأصدقاء يفرغون الطعام (التفاح، الجزر، التوت). "بارنابي" يعطي تفاحة لـ"بوني"، و"سُكَّر" يقدم التوت لـ"تورتي". الجميع يضحكون ويأكلون معاً بسعادة. الكاميرا تبتعد ببطء لتظهر الغابة الجميلة.
-
+**[Scene 6]**
+**[Visual]** Bambi (Deer) steps in gracefully, holding a shiny red apple. Bambi nudges the apple into Barnaby’s paws to resolve the conflict. (6 characters on screen).
 **[Audio/Dialogue]**
-**بارنابي (Barnaby):** (بحب) انظروا كم جمعنا من طعام رائع! لم أكن لأفعل هذا وحدي أبداً. شكراً لكم يا أصدقائي.
-**سُكَّر (Sokkar):** هل يمكنني تذوق بعض التوت يا تويتي؟
-**تويتي (Tweety):** بالطبع يا سُكَّر! النزهة لا تكتمل إلا إذا شاركنا ما لدينا.
-**بوني (Bonnie):** (وهي تأكل الجزر) طعم الطعام يكون ألذ بكثير عندما نتشاركه!
-**الجميع معاً (All Characters):** (بصوت واحد يملؤه الفرح) عندما نتعاون ونتشارك.. نكون دائماً سعداء! 
+**BAMBI:** ستة! (Six!) تفضل يا صديقي! (Here you go, my friend!)
+**BARNABY:** (Smiling, eating the apple) شكراً! (Thank you!)
 
-**(Fade out with joyful instrumental music / تلاشي الصورة مع موسيقى مبهجة)**
+**[Scene 7]**
+**[Visual]** Torti (Turtle) slides rapidly into the frame across the grass like a slip-n-slide, bumping gently into Bambi's leg. (7 characters on screen).
+**[Audio/Dialogue]**
+**TORTI:** سبعة! (Seven!)
+
+**[Scene 8]**
+**[Visual]** Ricky (Raccoon) suddenly pops his head out of a green bush right beside Torti. (8 characters on screen).
+**[Audio/Dialogue]**
+**RICKY:** ثمانية! (Eight!)
+
+**[Scene 9]**
+**[Visual]** Henry (Hedgehog) rolls into the frame as a tight, spiky ball, then immediately pops open with a happy jazz-hands gesture. (9 characters on screen).
+**[Audio/Dialogue]**
+**HENRY:** تسعة! (Nine!)
+
+**[Scene 10]**
+**[Visual]** Freddy (Frog) leaps incredibly high from off-screen, landing right in the middle of the animal group with a loud *Boing!*. All 10 characters are now perfectly grouped together in the frame, looking at the camera. (10 characters on screen).
+**[Audio/Dialogue]**
+**FREDDY:** عشرة! (Ten!)
+
+**[Scene 11 - Finale]**
+**[Visual]** The camera pulls back slightly. Confetti falls from the trees. All 10 characters jump up and down, dancing to the fast beat. The numbers 1 through 10 flash on the screen in big, colorful Arabic numerals as they count.
+**[Audio/Dialogue]**
+**ALL CHARACTERS:** (In rapid, joyful unison)
+واحد، اثنان، ثلاثة، أربعة، خمسة، ستة، سبعة، ثمانية، تسعة، عشرة!
+(1, 2, 3, 4, 5, 6, 7, 8, 9, 10!)
+**ALL CHARACTERS:** مرحى! (Yay!)
+
+**[Visual]** Fade out quickly on the laughing, cheering group.

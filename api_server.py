@@ -7,12 +7,13 @@ import sys
 
 # Add parent to path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from main_factory import run_full_pipeline
 from atlas_core.status import print_dashboard
 from atlas_core.job_manager import AtlasJobManager
 from config_manager import ConfigManager
 from retry_system import NotificationEngine
 from auth import require_admin, require_read, require_auth, setup_env_file, AuthLogger
+from atlas_core.paths import validate_identifier
+from atlas_core.settings import api_bind_host
 
 app = FastAPI(
     title="Atlas Kids Media API",
@@ -78,7 +79,7 @@ def root():
     return {
         "name": "Atlas Kids Media API",
         "version": "2.0.1",
-        "status": "operational",
+        "status": "legacy-reference",
         "auth_required": True,
         "docs": "/docs",
         "endpoints": {
@@ -95,7 +96,7 @@ def get_status(request: Request, user: dict = Depends(require_read)):
     episodes = cm.list_configs()
     AuthLogger.log(request, user, "/status")
     return {
-        "factory_status": "operational",
+        "factory_status": "legacy-reference",
         "authenticated_as": user["role"],
         "total_episodes_configured": len(episodes),
         "episodes": episodes,
@@ -124,6 +125,7 @@ def create_episode(
     user: dict = Depends(require_admin)
 ):
     """Create a new episode configuration. (Admin only)"""
+    validate_identifier(episode_request.episode_id, label="episode ID")
     config_path = cm.create_episode_config(
         episode_id=episode_request.episode_id,
         title=episode_request.title,
@@ -171,6 +173,7 @@ def list_episodes(request: Request, user: dict = Depends(require_read)):
 @app.get("/episodes/{episode_id}", dependencies=[Depends(require_read)])
 def get_episode(episode_id: str, request: Request, user: dict = Depends(require_read)):
     """Get detailed info about a specific episode. (Read access required)"""
+    validate_identifier(episode_id, label="episode ID")
     config = cm.load_config(episode_id)
     if not config:
         raise HTTPException(status_code=404, detail=f"Episode {episode_id} not found")
@@ -194,6 +197,7 @@ def trigger_pipeline(
     user: dict = Depends(require_admin)
 ):
     """Trigger the production pipeline for an episode. (Admin only)"""
+    validate_identifier(pipeline_request.episode_id, label="episode ID")
     config = cm.load_config(pipeline_request.episode_id)
     if not config:
         raise HTTPException(status_code=404, detail=f"Episode {pipeline_request.episode_id} not found")
@@ -215,6 +219,7 @@ def trigger_pipeline(
 def _run_pipeline_async(episode_id, phases):
     """Async pipeline runner for background tasks."""
     try:
+        from main_factory import run_full_pipeline
         run_full_pipeline(episode_id)
         notifier.notify(f'Pipeline complete for {episode_id}', 'success')
     except Exception as e:
@@ -224,6 +229,7 @@ def _run_pipeline_async(episode_id, phases):
 @app.get("/pipeline/status/{episode_id}", dependencies=[Depends(require_read)])
 def get_pipeline_status(episode_id: str, request: Request, user: dict = Depends(require_read)):
     """Get current pipeline status for an episode. (Read access required)"""
+    validate_identifier(episode_id, label="episode ID")
     stats = jm.get_episode_stats(episode_id)
     if not stats['episode']:
         raise HTTPException(status_code=404, detail=f"Episode {episode_id} not found")
@@ -236,7 +242,7 @@ def get_pipeline_status(episode_id: str, request: Request, user: dict = Depends(
         "budget_spent": stats['episode'][5] if stats['episode'] else 0,
         "completed_jobs": stats['completed_jobs'],
         "failed_jobs": stats['failed_jobs'],
-        "total_job_cost": stats['total_job_cost"]
+        "total_job_cost": stats['total_job_cost']
     }
 
 
@@ -247,6 +253,12 @@ def publish_episode(
     user: dict = Depends(require_admin)
 ):
     """Publish a completed episode to YouTube. (Admin only)"""
+    if os.getenv("ATLAS_ENABLE_PUBLISHING", "false").lower() != "true":
+        raise HTTPException(
+            status_code=503,
+            detail="NOT_CONFIGURED: publishing requires ATLAS_ENABLE_PUBLISHING=true",
+        )
+    validate_identifier(publish_request.episode_id, label="episode ID")
     from publisher.youtube_publisher import YouTubePublisher
     from metadata_engine import MetadataEngine
 
@@ -297,6 +309,7 @@ def publish_episode(
 @app.get("/analytics/{episode_id}", dependencies=[Depends(require_read)])
 def get_analytics(episode_id: str, request: Request, user: dict = Depends(require_read)):
     """Get analytics for an episode. (Read access required)"""
+    validate_identifier(episode_id, label="episode ID")
     from analytics_engine import AnalyticsEngine
 
     engine = AnalyticsEngine()
@@ -312,10 +325,11 @@ def get_analytics(episode_id: str, request: Request, user: dict = Depends(requir
 @app.post("/safety/check/{episode_id}", dependencies=[Depends(require_admin)])
 def safety_check(episode_id: str, request: Request, user: dict = Depends(require_admin)):
     """Run safety review on an episode. (Admin only)"""
+    validate_identifier(episode_id, label="episode ID")
     from safety_engine import SafetyEngine
 
     engine = SafetyEngine()
-    script_path = f'episodes/{episode_id}/script/story_v2.md'
+    script_path = f'episodes/{episode_id}/script/story.md'
 
     if not os.path.exists(script_path):
         raise HTTPException(status_code=404, detail="Script not found")
@@ -342,4 +356,4 @@ if __name__ == '__main__':
     print('Starting Atlas API Server...')
     print('Docs available at: http://localhost:8000/docs')
     print('Authentication required for all endpoints except /')
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    uvicorn.run(app, host=api_bind_host(), port=8000)

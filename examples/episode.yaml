@@ -1,0 +1,10 @@
+episode:
+  id: offline-counting-001
+  title: Offline Counting Example
+  status: concept
+production:
+  budget_limit: 0
+  setting: magical green forest
+  style: 3D animated, colorful, calm and child-safe movement
+characters:
+  cast: [Sokkar, Felix, Bonnie]
